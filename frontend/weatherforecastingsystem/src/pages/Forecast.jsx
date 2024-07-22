@@ -9,7 +9,7 @@ function Forecast() {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = '1eceee44619179169ee5a912cc84231f'; // Use your actual API key
+      const apiKey = '1eceee44619179169ee5a912cc84231f'; // Replace with your actual API key
       const city = 'Colombo';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
@@ -19,7 +19,6 @@ function Forecast() {
           throw new Error('Weather data could not be fetched.');
         }
         const data = await response.json();
-        console.log(data); // Log data to debug
         setWeatherData(data);
       } catch (error) {
         console.error('Failed to fetch weather data:', error);
@@ -52,6 +51,18 @@ function Forecast() {
     return `${Math.round(percentage)}% chance of rain`;
   };
 
+  // Group data by unique dates
+  const groupDataByDate = (data) => {
+    const groupedData = {};
+    data.forEach(item => {
+      const date = new Date(item.dt * 1000).toLocaleDateString();
+      if (!groupedData[date]) {
+        groupedData[date] = item;
+      }
+    });
+    return groupedData;
+  };
+
   return (
     <div>
       <NavBar />
@@ -59,10 +70,10 @@ function Forecast() {
         <h1 className="Forecast-title">Forecast</h1>
         <ul className="Forecast-list">
           {weatherData ? (
-            weatherData.list.slice(0, 4).map((item, index) => (
+            Object.entries(groupDataByDate(weatherData.list)).map(([date, item], index) => (
               <li key={index} className="Forecast-list-item">
                 <div className="date-time">
-                  <p>{new Date(item.dt * 1000).toLocaleDateString()}</p>
+                  <p>{date}</p>
                 </div>
                 <div className="weather-condition">
                   <FontAwesomeIcon icon={getIcon(item.weather[0].main)} />
