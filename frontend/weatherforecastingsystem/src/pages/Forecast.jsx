@@ -8,7 +8,7 @@ function Forecast() {
   useEffect(() => {
     const fetchWeatherData = async () => {
       const apiKey = '1eceee44619179169ee5a912cc84231f'; 
-      const city = 'London'; 
+      const city = 'Colombo'; 
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
       try {
@@ -42,7 +42,6 @@ function Forecast() {
             <p>Description: {item.weather[0].description}</p>
             <p>Wind: {item.wind.speed} m/s, Direction: {item.wind.deg}°</p>
             <p>Humidity: {item.main.humidity}%</p>
-            <p>Pressure: {item.main.pressure} hPa</p>
             <p>Cloudiness: {item.clouds.all}%</p>
             {item.rain && <p>Rain: {item.rain['3h']} mm</p>}
             {item.snow && <p>Snow: {item.snow['3h']} mm</p>}
