@@ -1,5 +1,5 @@
-  /* Input container */
-  .input-container, .button-container {
+
+.input-container, .button-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -7,13 +7,13 @@
   
   input[type="text"] {
     padding: 10px;
-    border: none;
     border-radius: 5px;
     width: 70%;
     margin-right: 10px;
+    color: black;
   }
   
-  button {
+.button1 {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -22,7 +22,6 @@
     font-size: 16px;
     cursor: pointer;
     margin-right: 10px;
-
   }
   
   button:hover {
@@ -39,6 +38,11 @@
   /* Weather details */
   .weather-details {
     text-align: center;
+    /* background-color: #2C3E50; */
+    /* color: #ECF0F1; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
   .weather-details h1 {
@@ -51,7 +55,27 @@
     font-size: 18px;
   }
   
-  .weather-details p span {
-    font-weight: bold;
+  .weather-details .temperature {
+    font-size: 3em;
+    margin-bottom: 10px;
+  }
+  
+  .weather-details .condition {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .weather-details .info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .weather-details .info div {
+    text-align: left;
+  }
+  
+  .weather-details .info div p {
+    margin: 5px 0;
   }
   

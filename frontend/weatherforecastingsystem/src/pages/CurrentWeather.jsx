@@ -64,35 +64,40 @@ function WeatherApp() {
     <div>
     <NavBar />
     <div className="weather-container">
-      
-      <div className="input-container">
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city"
-        />
-        <button onClick={fetchWeatherByCity}>Search Weather</button>
-    
-        <button onClick={handleGetLocation}>Get Current Location Weather</button>
-      </div>
-      {error && <p className="error">Error: {error}</p>}
-      {weather && (
-        <div className="weather-details">
-          <h1>Weather in {weather.name}</h1>
-          <p>Temperature: {weather.main.temp}°C</p>
+  <div className="input-container">
+    <input
+      type="text"
+      value={city}
+      onChange={(e) => setCity(e.target.value)}
+      placeholder="Enter city"
+    />
+    <button className='button1' onClick={fetchWeatherByCity}>Search Weather</button>
+    <button className='button1' onClick={handleGetLocation}>Get Current Location Weather</button>
+  </div>
+  {error && <p className="error">Error: {error}</p>}
+  {weather && (
+    <div className="weather-details">
+      <h1>Weather in {weather.name}</h1>
+      <div className="temperature">{weather.main.temp}°C</div>
+      <div className="condition">{weather.weather[0].main}</div>
+      <div className="info">
+        <div>
           <p>Feels Like: {weather.main.feels_like}°C</p>
-          <p>Condition: {weather.weather[0].main}</p>
           <p>Humidity: {weather.main.humidity}%</p>
           <p>Wind Speed: {weather.wind.speed} m/s</p>
           <p>Wind Direction: {weather.wind.deg} degrees</p>
+        </div>
+        <div>
           <p>Pressure: {weather.main.pressure} hPa</p>
           <p>Visibility: {weather.visibility / 1000} km</p>
           <p>Sunrise: {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
           <p>Sunset: {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
         </div>
-      )}
+      </div>
     </div>
+  )}
+</div>
+
     </div>
   );
 }
