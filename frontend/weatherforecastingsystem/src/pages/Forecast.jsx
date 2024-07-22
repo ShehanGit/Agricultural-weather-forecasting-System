@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThermometerHalf, faWind, faTint, faCloud, faSun, faSnowflake } from '@fortawesome/free-solid-svg-icons';
 import './Forecast.css';
 
 function Forecast() {
@@ -7,8 +9,8 @@ function Forecast() {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = '1eceee44619179169ee5a912cc84231f'; 
-      const city = 'Colombo'; 
+      const apiKey = '1eceee44619179169ee5a912cc84231f'; // Use your actual API key
+      const city = 'London';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
       try {
@@ -26,36 +28,60 @@ function Forecast() {
     fetchWeatherData();
   }, []);
 
+  const getIcon = (condition) => {
+    switch (condition) {
+      case 'Clear':
+        return faSun;
+      case 'Snow':
+        return faSnowflake;
+      case 'Rain':
+        return faTint;
+      default:
+        return faCloud;
+    }
+  };
+
   return (
     <div>
-        <NavBar />
-        <div className="Forecast-container">
-    
-    <h1 className="Forecast-title">Forecast</h1>
-    <div>
-      {weatherData ? (
+      <NavBar />
+      <div className="Forecast-container">
+        <h1 className="Forecast-title">Forecast</h1>
         <ul className="Forecast-list">
-          {weatherData.list.slice(0, 4).map((item, index) => (
-            <li key={index} className="Forecast-list-item">
-            <h2>{new Date(item.dt * 1000).toLocaleDateString()} - {item.weather[0].main}</h2>
-            <p>Temp: {item.main.temp}°C</p>
-            <p>Description: {item.weather[0].description}</p>
-            <p>Wind: {item.wind.speed} m/s, Direction: {item.wind.deg}°</p>
-            <p>Humidity: {item.main.humidity}%</p>
-            <p>Cloudiness: {item.clouds.all}%</p>
-            {item.rain && <p>Rain: {item.rain['3h']} mm</p>}
-            {item.snow && <p>Snow: {item.snow['3h']} mm</p>}
-          </li>
-          ))}
+          {weatherData ? (
+            weatherData.list.slice(0, 4).map((item, index) => (
+              <li key={index} className="Forecast-list-item">
+                <div className="date-time">
+                  <p>{new Date(item.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                </div>
+                <div className="weather-condition">
+                  <FontAwesomeIcon icon={getIcon(item.weather[0].main)} />
+                  <p>{item.weather[0].main}</p>
+                </div>
+                <div className="temperature">
+                  <FontAwesomeIcon icon={faThermometerHalf} />
+                  <p>{item.main.temp}°C</p>
+                </div>
+                <div className="humidity">
+                  <FontAwesomeIcon icon={faTint} />
+                  <p>{item.main.humidity}%</p>
+                </div>
+                <div className="wind">
+                  <FontAwesomeIcon icon={faWind} />
+                  <p>{item.wind.speed} km/h</p>
+                </div>
+                <div className="cloudiness">
+                  <FontAwesomeIcon icon={faCloud} />
+                  <p>{item.clouds.all}%</p>
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>Loading weather data...</p>
+          )}
         </ul>
-      ) : (
-        <p className="Loading-message">Loading weather data...</p>
-      )}
+      </div>
     </div>
-  </div>
-  </div>
-);
-
+  );
 }
 
 export default Forecast;

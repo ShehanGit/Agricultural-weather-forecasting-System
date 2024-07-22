@@ -1,48 +1,44 @@
-.Forecast-container {
-    display: flex; /* Use Flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    margin: 20px auto;
+  .Loading-message {
+    text-align: center;
+    color: #007BFF;
+  }
+  
+  .Forecast-container {
+    width: 80%;
+    /* max-width: 900px; */
+    margin: 0 auto;
     padding: 20px;
     background-color: #f4f4f9;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex-direction: column; /* Stack children vertically */
-}
+  }
   
   .Forecast-title {
     text-align: center;
-    color: #333;
-    font-size: 24px;
+    margin-bottom: 20px;
   }
   
   .Forecast-list {
     list-style: none;
     padding: 0;
-    width: 1200px;
   }
   
   .Forecast-list-item {
-    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
-    background-color: #1f29377c;
+    margin-bottom: 10px;
+    background-color: #e1e5ea;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
   
-  .Forecast-list-item h2 {
-    margin: 0;
-    /* color: #007BFF; */
-    font-size: 18px;
+  .date-time, .weather-condition, .temperature, .humidity, .wind, .cloudiness {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   
-  .Forecast-list-item p {
-    margin: 5px 0;
-    /* color: #666; */
-  }
-  
-  .Loading-message {
-    text-align: center;
-    color: #007BFF;
+  .weather-condition svg, .temperature svg, .humidity svg, .wind svg, .cloudiness svg {
+    color: #2b57c0;
   }
   
