@@ -48,8 +48,10 @@ function Forecast() {
     const rainVolume = rainData['3h'] || 0;
     const maxRainFor100Percent = 1; // 1 mm of rain equals 100% chance
     const percentage = (rainVolume / maxRainFor100Percent) * 100;
-    return `${Math.round(percentage)}% chance of rain`;
+    const cappedPercentage = Math.min(100, percentage); // Cap the percentage at 100%
+    return `${Math.round(cappedPercentage)}% chance of rain`;
   };
+  
 
   // Group data by unique dates
   const groupDataByDate = (data) => {
