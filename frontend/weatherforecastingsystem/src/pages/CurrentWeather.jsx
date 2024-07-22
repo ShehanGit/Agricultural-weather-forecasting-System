@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 
+import './WeatherApp.css';
 
 function WeatherApp() {
   const [weather, setWeather] = useState(null);
@@ -27,7 +28,7 @@ function WeatherApp() {
   };
 
   const fetchWeatherByCity = async () => {
-    const apiKey = '1eceee44619179169ee5a912cc84231f';  // Use your API key
+    const apiKey = '1eceee44619179169ee5a912cc84231f';  
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     try {
@@ -61,8 +62,10 @@ function WeatherApp() {
 
   return (
     <div>
-        <NavBar/>
-      <div>
+    <NavBar />
+    <div className="weather-container">
+      
+      <div className="input-container">
         <input
           type="text"
           value={city}
@@ -70,24 +73,26 @@ function WeatherApp() {
           placeholder="Enter city"
         />
         <button onClick={fetchWeatherByCity}>Search Weather</button>
+    
+        <button onClick={handleGetLocation}>Get Current Location Weather</button>
       </div>
-      <button onClick={handleGetLocation}>Get Current Location Weather</button>
-      {error && <p>Error: {error}</p>}
+      {error && <p className="error">Error: {error}</p>}
       {weather && (
-        <div>
-            <h1>Weather in {weather.name}</h1>
-            <p>Temperature: {weather.main.temp}°C</p>
-            <p>Feels Like: {weather.main.feels_like}°C</p>
-            <p>Condition: {weather.weather[0].main}</p>
-            <p>Humidity: {weather.main.humidity}%</p>
-            <p>Wind Speed: {weather.wind.speed} m/s</p>
-            <p>Wind Direction: {weather.wind.deg} degrees</p>
-            <p>Pressure: {weather.main.pressure} hPa</p>
-            <p>Visibility: {weather.visibility / 1000} km</p>
-            <p>Sunrise: {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
-            <p>Sunset: {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
+        <div className="weather-details">
+          <h1>Weather in {weather.name}</h1>
+          <p>Temperature: {weather.main.temp}°C</p>
+          <p>Feels Like: {weather.main.feels_like}°C</p>
+          <p>Condition: {weather.weather[0].main}</p>
+          <p>Humidity: {weather.main.humidity}%</p>
+          <p>Wind Speed: {weather.wind.speed} m/s</p>
+          <p>Wind Direction: {weather.wind.deg} degrees</p>
+          <p>Pressure: {weather.main.pressure} hPa</p>
+          <p>Visibility: {weather.visibility / 1000} km</p>
+          <p>Sunrise: {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
+          <p>Sunset: {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
         </div>
       )}
+    </div>
     </div>
   );
 }
