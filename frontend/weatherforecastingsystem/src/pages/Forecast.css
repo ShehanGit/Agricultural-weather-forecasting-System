@@ -4,7 +4,7 @@
   }
   
   .Forecast-container {
-    width: 80%;
+    width: 85%;
     /* max-width: 900px; */
     margin: 0 auto;
     padding: 20px;
@@ -30,6 +30,7 @@
     margin-bottom: 10px;
     background-color: #e1e5ea;
     border-radius: 4px;
+    height: 80px;
   }
   
   .date-time, .weather-condition, .temperature, .humidity, .wind, .cloudiness {
@@ -41,4 +42,23 @@
   .weather-condition svg, .temperature svg, .humidity svg, .wind svg, .cloudiness svg {
     color: #2b57c0;
   }
+  .rain-chance svg {
+    color: #2b57c0; /* Blue color for rain icon */
+    margin-right: 10px;
+  }
   
+  .Forecast-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around; /* Ensures even spacing */
+    padding: 10px;
+    background-color: #e1e5ea;
+    border-radius: 4px;
+     font-size: 1.2em;
+  }
+  
+  .rain-chance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

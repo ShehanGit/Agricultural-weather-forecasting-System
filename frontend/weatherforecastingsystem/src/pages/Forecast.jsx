@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThermometerHalf, faWind, faTint, faCloud, faSun, faSnowflake } from '@fortawesome/free-solid-svg-icons';
+import { faThermometerHalf, faWind, faTint, faCloud, faSun, faSnowflake, faUmbrella } from '@fortawesome/free-solid-svg-icons';
 import './Forecast.css';
 
 function Forecast() {
@@ -10,7 +10,7 @@ function Forecast() {
   useEffect(() => {
     const fetchWeatherData = async () => {
       const apiKey = '1eceee44619179169ee5a912cc84231f'; // Use your actual API key
-      const city = 'London';
+      const city = 'Colombo';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
       try {
@@ -19,6 +19,7 @@ function Forecast() {
           throw new Error('Weather data could not be fetched.');
         }
         const data = await response.json();
+        console.log(data); // Log data to debug
         setWeatherData(data);
       } catch (error) {
         console.error('Failed to fetch weather data:', error);
@@ -35,10 +36,20 @@ function Forecast() {
       case 'Snow':
         return faSnowflake;
       case 'Rain':
-        return faTint;
+        return faUmbrella;
       default:
         return faCloud;
     }
+  };
+
+  const calculateRainPercentage = (rainData) => {
+    if (!rainData || Object.keys(rainData).length === 0) {
+      return "0% chance of rain";
+    }
+    const rainVolume = rainData['3h'] || 0;
+    const maxRainFor100Percent = 1; // 1 mm of rain equals 100% chance
+    const percentage = (rainVolume / maxRainFor100Percent) * 100;
+    return `${Math.round(percentage)}% chance of rain`;
   };
 
   return (
@@ -51,7 +62,7 @@ function Forecast() {
             weatherData.list.slice(0, 4).map((item, index) => (
               <li key={index} className="Forecast-list-item">
                 <div className="date-time">
-                  <p>{new Date(item.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                  <p>{new Date(item.dt * 1000).toLocaleDateString()}</p>
                 </div>
                 <div className="weather-condition">
                   <FontAwesomeIcon icon={getIcon(item.weather[0].main)} />
@@ -59,7 +70,7 @@ function Forecast() {
                 </div>
                 <div className="temperature">
                   <FontAwesomeIcon icon={faThermometerHalf} />
-                  <p>{item.main.temp}°C</p>
+                  <p>{item.main.temp.toFixed(2)}°C</p>
                 </div>
                 <div className="humidity">
                   <FontAwesomeIcon icon={faTint} />
@@ -67,11 +78,15 @@ function Forecast() {
                 </div>
                 <div className="wind">
                   <FontAwesomeIcon icon={faWind} />
-                  <p>{item.wind.speed} km/h</p>
+                  <p>{(item.wind.speed * 3.6).toFixed(2)} km/h</p>
                 </div>
                 <div className="cloudiness">
                   <FontAwesomeIcon icon={faCloud} />
                   <p>{item.clouds.all}%</p>
+                </div>
+                <div className="rain-chance">
+                  <FontAwesomeIcon icon={faUmbrella} />
+                  <p>{calculateRainPercentage(item.rain)}</p>
                 </div>
               </li>
             ))
