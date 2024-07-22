@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
-import './WeatherApp.css';
+import './Forcast.css';
 
 function Forecast() {
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = '1eceee44619179169ee5a912cc84231f'; // Replace 'YOUR_API_KEY' with your actual OpenWeather API key
-      const city = 'London'; // Replace 'YOUR_CITY' with the city you want to fetch weather data for
+      const apiKey = '1eceee44619179169ee5a912cc84231f'; 
+      const city = 'London'; 
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
       try {
@@ -28,25 +28,35 @@ function Forecast() {
 
   return (
     <div>
-      <NavBar />
-      <h1>Forecast</h1>
-      <div>
-        {weatherData ? (
-          <ul>
-            {weatherData.list.slice(0, 3).map((item, index) => (
-              <li key={index}>
-                <h2>{new Date(item.dt * 1000).toLocaleDateString()} - {item.weather[0].main}</h2>
-                <p>Temp: {item.main.temp}°C</p>
-                <p>Description: {item.weather[0].description}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Loading weather data...</p>
-        )}
-      </div>
+        <NavBar />
+        <div className="Forecast-container">
+    
+    <h1 className="Forecast-title">Forecast</h1>
+    <div>
+      {weatherData ? (
+        <ul className="Forecast-list">
+          {weatherData.list.slice(0, 4).map((item, index) => (
+            <li key={index} className="Forecast-list-item">
+            <h2>{new Date(item.dt * 1000).toLocaleDateString()} - {item.weather[0].main}</h2>
+            <p>Temp: {item.main.temp}°C</p>
+            <p>Description: {item.weather[0].description}</p>
+            <p>Wind: {item.wind.speed} m/s, Direction: {item.wind.deg}°</p>
+            <p>Humidity: {item.main.humidity}%</p>
+            <p>Pressure: {item.main.pressure} hPa</p>
+            <p>Cloudiness: {item.clouds.all}%</p>
+            {item.rain && <p>Rain: {item.rain['3h']} mm</p>}
+            {item.snow && <p>Snow: {item.snow['3h']} mm</p>}
+          </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="Loading-message">Loading weather data...</p>
+      )}
     </div>
-  );
+  </div>
+  </div>
+);
+
 }
 
 export default Forecast;

@@ -1,0 +1,48 @@
+.Forecast-container {
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column; /* Stack children vertically */
+}
+  
+  .Forecast-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .Forecast-list {
+    list-style: none;
+    padding: 0;
+    width: 1200px;
+  }
+  
+  .Forecast-list-item {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #1f29377c;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .Forecast-list-item h2 {
+    margin: 0;
+    /* color: #007BFF; */
+    font-size: 18px;
+  }
+  
+  .Forecast-list-item p {
+    margin: 5px 0;
+    /* color: #666; */
+  }
+  
+  .Loading-message {
+    text-align: center;
+    color: #007BFF;
+  }
+  
