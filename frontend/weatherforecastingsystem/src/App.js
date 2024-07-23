@@ -5,7 +5,7 @@ import Forecast from './pages/Forecast';
 
 function App() {
   return (
-    <Router> {/* Adding BrowserRouter here */}
+    <Router>
       <div>
         <Routes>
           {/* <Route path="/current-weather" element={<CurrentWeather />} /> */}

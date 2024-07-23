@@ -9,7 +9,7 @@ function WeatherApp() {
   const [error, setError] = useState(null);
 
   const fetchWeather = async (lat, lon) => {
-    const apiKey = '1eceee44619179169ee5a912cc84231f';  // Use your API key
+    const apiKey = '1eceee44619179169ee5a912cc84231f'; 
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
     try {
@@ -19,10 +19,10 @@ function WeatherApp() {
         throw new Error(data.message || "Failed to fetch weather data");
       }
       setWeather(data);
-      setError(null); // Clear any previous errors
+      setError(null);
     } catch (error) {
       setError(error.message);
-      setWeather(null); // Clear previous weather data on error
+      setWeather(null); 
       console.error("Error fetching weather:", error);
     }
   };
@@ -38,10 +38,10 @@ function WeatherApp() {
         throw new Error(data.message || "Failed to fetch weather data");
       }
       setWeather(data);
-      setError(null); // Clear any previous errors
+      setError(null); 
     } catch (error) {
       setError(error.message);
-      setWeather(null); // Clear previous weather data on error
+      setWeather(null); 
       console.error("Error fetching weather:", error);
     }
   };
@@ -56,7 +56,7 @@ function WeatherApp() {
       fetchWeather(position.coords.latitude, position.coords.longitude);
     }, (err) => {
       setError('Error retrieving your location: ' + err.message);
-      setWeather(null); // Clear previous weather data on location error
+      setWeather(null); 
     });
   };
 

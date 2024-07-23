@@ -9,7 +9,7 @@ function Forecast() {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = '1eceee44619179169ee5a912cc84231f'; // Replace with your actual API key
+      const apiKey = '1eceee44619179169ee5a912cc84231f'; 
       const city = 'Colombo';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
