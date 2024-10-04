@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Navbar, DarkThemeToggle, useThemeMode } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
-import logo from '../Images/Logo.png';
+import logo from '../Images/Logo2.png';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const NavBar = () => {
     <div>
       <Navbar fluid rounded>
         <Navbar.Brand onClick={handleButtonClick1}>
-          <img src={logo} style={{ marginRight: '12px', height: '100px' }} className="mr-3 h-9 sm:h-28" alt="Flowbite React Logo" />
+          <img src={logo} style={{ marginRight: '22px', height: '100px' }} className="mr-3 h-9 sm:h-28" alt="Flowbite React Logo" />
        
 
           <span onClick={handleButtonClick1} className="self-center whitespace-nowrap text-3xl font-semibold dark:text-white">StreamReserve</span>
@@ -40,7 +40,7 @@ const NavBar = () => {
 
         <div className="flex md:order-2">
               <DarkThemeToggle onClick={toggleMode} className="mr-2" />
-              <Button onClick={handleButtonClick} style={{ width: '150px', backgroundColor: '#314985', color: 'white' }}>Login</Button>
+              <Button onClick={handleButtonClick} style={{ width: '150px', backgroundColor: '#7b9a00', color: 'white' }}>Login</Button>
         <Navbar.Toggle />
         </div>
 
