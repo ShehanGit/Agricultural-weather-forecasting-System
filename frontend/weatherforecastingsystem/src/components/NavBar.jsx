@@ -33,7 +33,7 @@ const NavBar = () => {
         <Navbar.Collapse>
       <Navbar.Link href="/" active style={{ fontSize: '1.25rem' }}>Home</Navbar.Link>
       <Navbar.Link href="/forecast" style={{ fontSize: '1.25rem' }}>Forecast</Navbar.Link>
-      <Navbar.Link href="#" style={{ fontSize: '1.25rem' }}>About</Navbar.Link>
+      <Navbar.Link href="#" style={{ fontSize: '1.25rem' }}>Crop</Navbar.Link>
       <Navbar.Link href="/map" style={{ fontSize: '1.25rem' }}>Map</Navbar.Link>
       <Navbar.Link href="#" style={{ fontSize: '1.25rem' }}>Contact</Navbar.Link>
     </Navbar.Collapse>
