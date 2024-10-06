@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import '../css/CropPage.css';
 
 function CropApp() {
   const [crops, setCrops] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchCrops = async () => {
     const url = 'http://localhost:8080/crops';
@@ -27,6 +29,10 @@ function CropApp() {
     fetchCrops();
   }, []);
 
+  const handleCardClick = (id) => {
+    navigate(`/crop/${id}`);
+  };
+
   return (
     <div>
       <NavBar />
@@ -36,20 +42,12 @@ function CropApp() {
         <div className="crop-list">
           {crops.length === 0 && !error && <p>No crops available.</p>}
           {crops.map((crop) => (
-            <div key={crop.id} className="crop-card">
-              <h2>{crop.cropName}</h2>
+            <div key={crop.id || crop.cropId} className="crop-card" onClick={() => handleCardClick(crop.id || crop.cropId)}>
+              <h2 className="crop-name">{crop.cropName}</h2>
               <p>Type: {crop.cropType}</p>
               <p>Optimal Temperature: {crop.optimalTemperatureMin}°C - {crop.optimalTemperatureMax}°C</p>
-              <p>Optimal Humidity: {crop.optimalHumidity}%</p>
               <p>Soil Type: {crop.soilType}</p>
-              <p>Irrigation Requirement: {crop.irrigationRequirement}</p>
               <p>Planting Season: {crop.plantingSeason}</p>
-              <p>Harvest Time: {crop.harvestTime}</p>
-              <p>pH Requirement: {crop.phRequirementMin} - {crop.phRequirementMax}</p>
-              <p>Nutrient Requirements: {crop.nutrientRequirements}</p>
-              <p>Yield per Hectare: {crop.yieldPerHectare} kg</p>
-              <p>Disease Resistance: {crop.diseaseResistance}</p>
-              <p>Pest Sensitivity: {crop.pestSensitivity}</p>
             </div>
           ))}
         </div>
