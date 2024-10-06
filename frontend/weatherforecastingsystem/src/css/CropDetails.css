@@ -1,3 +1,4 @@
+/* CropDetails.css */
 .crop-details-container {
     max-width: 800px;
     margin: 0 auto;
@@ -5,13 +6,33 @@
     font-family: 'Arial, sans-serif';
   }
   
-  .crop-details, .weather-details, .recommendation {
+  .crop-details, .weather-details, .forecast-details, .recommendation {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #2980b9;
   }
   
   h1, h2, h3 {
@@ -29,3 +50,4 @@
     font-weight: bold;
     text-align: center;
   }
+  

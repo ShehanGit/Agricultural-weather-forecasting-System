@@ -7,6 +7,7 @@ function CropDetails() {
   const { id } = useParams();
   const [crop, setCrop] = useState(null);
   const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
   const [recommendation, setRecommendation] = useState('');
   const [error, setError] = useState(null);
   const [city, setCity] = useState('');
@@ -30,36 +31,58 @@ function CropDetails() {
     }
   };
 
-  const fetchWeatherByCity = async () => {
+  const fetchWeatherAndForecast = async () => {
     if (!city) {
       setError("Please enter a city");
       return;
     }
     try {
-      const response = await fetch(`http://localhost:8080/api/weather/city?city=${city}`);
-      const data = await response.json();
-      console.log("Weather API Response:", data); // Log the response
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch weather data");
+      const weatherResponse = await fetch(`http://localhost:8080/api/weather/city?city=${city}`);
+      const weatherData = await weatherResponse.json();
+      console.log("Weather API Response:", weatherData);
+      if (!weatherResponse.ok) {
+        throw new Error(weatherData.message || "Failed to fetch weather data");
       }
-      setWeather(data);
-      generateRecommendations(data);
+      setWeather(weatherData);
+
+      const forecastResponse = await fetch(`http://localhost:8080/api/forecast?city=${city}`);
+      const forecastData = await forecastResponse.json();
+      console.log("Forecast API Response:", forecastData);
+      if (!forecastResponse.ok) {
+        throw new Error(forecastData.message || "Failed to fetch forecast data");
+      }
+      setForecast(forecastData);
+
+      generateRecommendations(weatherData, forecastData);
     } catch (error) {
       setError(error.message);
       setWeather(null);
-      console.error("Error fetching weather:", error);
+      setForecast(null);
+      console.error("Error fetching weather or forecast:", error);
     }
   };
 
-  const generateRecommendations = (weatherData) => {
+  const generateRecommendations = (weatherData, forecastData) => {
     if (!crop) return;
+    let recommendations = '';
+
+    // Temperature-based recommendations
     if (weatherData.main?.temp < crop.optimalTemperatureMin) {
-      setRecommendation('The current temperature is below optimal. Consider using protective measures to maintain warmth for the crop.');
+      recommendations += 'The current temperature is below optimal. Consider using protective measures to maintain warmth for the crop.\n';
     } else if (weatherData.main?.temp > crop.optimalTemperatureMax) {
-      setRecommendation('The current temperature is above optimal. Consider providing shade or increasing irrigation to cool the crop.');
+      recommendations += 'The current temperature is above optimal. Consider providing shade or increasing irrigation to cool the crop.\n';
     } else {
-      setRecommendation('The current temperature is within the optimal range for the crop.');
+      recommendations += 'The current temperature is within the optimal range for the crop.\n';
     }
+
+    // Rainfall-based recommendations
+    if (forecastData && forecastData.rainfall > 1) {
+      recommendations += 'The rainfall is expected to be more than 1mm. Consider reducing the irrigation amount to prevent overwatering.\n';
+    } else if (forecastData && forecastData.rainfall <= 1) {
+      recommendations += 'The expected rainfall is less than 1mm. Consider supplying additional irrigation to the crops if needed.\n';
+    }
+
+    setRecommendation(recommendations);
   };
 
   return (
@@ -91,9 +114,9 @@ function CropDetails() {
               setCity(e.target.value);
               setError(null);
             }}
-            placeholder="Enter city for weather"
+            placeholder="Enter city for weather and forecast"
           />
-          <button className="button" onClick={fetchWeatherByCity}>Get Weather</button>
+          <button className="button" onClick={fetchWeatherAndForecast}>Search</button>
         </div>
         {weather && (
           <div className="weather-details">
@@ -102,6 +125,15 @@ function CropDetails() {
             <p>Condition: {weather.weather?.[0]?.main}</p>
             <p>Humidity: {weather.main?.humidity}%</p>
             <p>Wind Speed: {weather.wind?.speed} m/s</p>
+          </div>
+        )}
+        {forecast && (
+          <div className="forecast-details">
+            <h2>Forecast for {city}</h2>
+            <p>Temperature: {forecast.temperature}°C</p>
+            <p>Humidity: {forecast.humidity}%</p>
+            <p>Wind Speed: {forecast.windSpeed} m/s</p>
+            <p>Rainfall: {forecast.rainfall} mm</p>
           </div>
         )}
         {recommendation && (
