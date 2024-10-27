@@ -10,7 +10,6 @@ function CropDetails() {
   const [forecast, setForecast] = useState(null);
   const [recommendation, setRecommendation] = useState('');
   const [error, setError] = useState(null);
-  const [city, setCity] = useState('');
 
   useEffect(() => {
     fetchCropDetails();
@@ -24,6 +23,10 @@ function CropDetails() {
         throw new Error(data.message || "Failed to fetch crop data");
       }
       setCrop(data);
+
+      // Store latitude and longitude in sessionStorage
+      sessionStorage.setItem('latitude', data.latitude);
+      sessionStorage.setItem('longitude', data.longitude);
     } catch (error) {
       setError(error.message);
       setCrop(null);
@@ -32,22 +35,29 @@ function CropDetails() {
   };
 
   const fetchWeatherAndForecast = async () => {
-    if (!city) {
-      setError("Please enter a city");
+    const lat = sessionStorage.getItem('latitude');
+    const lon = sessionStorage.getItem('longitude');
+    if (!lat || !lon) {
+      setError("Latitude and Longitude not available for this crop.");
       return;
     }
+
     try {
-      const weatherResponse = await fetch(`http://localhost:8080/api/weather/city?city=${city}`);
+      const apiKey = '1eceee44619179169ee5a912cc84231f';
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+      // Fetch weather data
+      const weatherResponse = await fetch(weatherUrl);
       const weatherData = await weatherResponse.json();
-      console.log("Weather API Response:", weatherData);
       if (!weatherResponse.ok) {
         throw new Error(weatherData.message || "Failed to fetch weather data");
       }
       setWeather(weatherData);
 
-      const forecastResponse = await fetch(`http://localhost:8080/api/forecast?city=${city}`);
+      // Fetch forecast data
+      const forecastResponse = await fetch(forecastUrl);
       const forecastData = await forecastResponse.json();
-      console.log("Forecast API Response:", forecastData);
       if (!forecastResponse.ok) {
         throw new Error(forecastData.message || "Failed to fetch forecast data");
       }
@@ -76,9 +86,9 @@ function CropDetails() {
     }
 
     // Rainfall-based recommendations
-    if (forecastData && forecastData.rainfall > 1) {
+    if (forecastData && forecastData.list[0]?.rain && forecastData.list[0].rain["3h"] > 1) {
       recommendations += 'The rainfall is expected to be more than 1mm. Consider reducing the irrigation amount to prevent overwatering.\n';
-    } else if (forecastData && forecastData.rainfall <= 1) {
+    } else {
       recommendations += 'The expected rainfall is less than 1mm. Consider supplying additional irrigation to the crops if needed.\n';
     }
 
@@ -109,20 +119,11 @@ function CropDetails() {
           </div>
         )}
         <div className="input-container">
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-              setError(null);
-            }}
-            placeholder="Enter city for weather and forecast"
-          />
-          <button className="button" onClick={fetchWeatherAndForecast}>Search</button>
+          <button className="button" onClick={fetchWeatherAndForecast}>Fetch Weather and Forecast</button>
         </div>
         {weather && (
           <div className="weather-details">
-            <h2>Weather in {weather.name}</h2>
+            <h2>Weather</h2>
             <p>Temperature: {weather.main?.temp}°C</p>
             <p>Condition: {weather.weather?.[0]?.main}</p>
             <p>Humidity: {weather.main?.humidity}%</p>
@@ -131,11 +132,11 @@ function CropDetails() {
         )}
         {forecast && (
           <div className="forecast-details">
-            <h2>Forecast for {city}</h2>
-            <p>Temperature: {forecast.temperature}°C</p>
-            <p>Humidity: {forecast.humidity}%</p>
-            <p>Wind Speed: {forecast.windSpeed} m/s</p>
-            <p>Rainfall: {forecast.rainfall} mm</p>
+            <h2>Forecast</h2>
+            <p>Temperature: {forecast.list[0]?.main.temp}°C</p>
+            <p>Humidity: {forecast.list[0]?.main.humidity}%</p>
+            <p>Wind Speed: {forecast.list[0]?.wind.speed} m/s</p>
+            <p>Rainfall: {forecast.list[0]?.rain ? forecast.list[0].rain["3h"] : 0} mm</p>
           </div>
         )}
         {recommendation && (
