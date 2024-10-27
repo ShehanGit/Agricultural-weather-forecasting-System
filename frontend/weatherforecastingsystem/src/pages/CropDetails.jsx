@@ -92,6 +92,7 @@ function CropDetails() {
         {error && <p className="error">Error: {error}</p>}
         {crop && (
           <div className="crop-details">
+            {crop.imageUrl && <img src={crop.imageUrl} alt={`${crop.cropName}`} className="crop-detail-image" />}
             <h1>{crop.cropName}</h1>
             <p>Type: {crop.cropType}</p>
             <p>Optimal Temperature: {crop.optimalTemperatureMin}°C - {crop.optimalTemperatureMax}°C</p>
@@ -104,6 +105,7 @@ function CropDetails() {
             <p>Yield per Hectare: {crop.yieldPerHectare} kg</p>
             <p>Disease Resistance: {crop.diseaseResistance}</p>
             <p>Pest Sensitivity: {crop.pestSensitivity}</p>
+            <p>Location: Latitude {crop.latitude}, Longitude {crop.longitude}</p>
           </div>
         )}
         <div className="input-container">
