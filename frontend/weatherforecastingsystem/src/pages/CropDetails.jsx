@@ -15,6 +15,12 @@ function CropDetails() {
     fetchCropDetails();
   }, [id]);
 
+  useEffect(() => {
+    if (crop) {
+      fetchWeatherAndForecast();
+    }
+  }, [crop]);
+
   const fetchCropDetails = async () => {
     try {
       const response = await fetch(`http://localhost:8080/crops/${id}`);
@@ -76,7 +82,6 @@ function CropDetails() {
     if (!crop) return;
     let recommendations = '';
 
-    // Temperature-based recommendations
     if (weatherData.main?.temp < crop.optimalTemperatureMin) {
       recommendations += 'The current temperature is below optimal. Consider using protective measures to maintain warmth for the crop.\n';
     } else if (weatherData.main?.temp > crop.optimalTemperatureMax) {
@@ -85,7 +90,6 @@ function CropDetails() {
       recommendations += 'The current temperature is within the optimal range for the crop.\n';
     }
 
-    // Rainfall-based recommendations
     if (forecastData && forecastData.list[0]?.rain && forecastData.list[0].rain["3h"] > 1) {
       recommendations += 'The rainfall is expected to be more than 1mm. Consider reducing the irrigation amount to prevent overwatering.\n';
     } else {
@@ -99,52 +103,58 @@ function CropDetails() {
     <div>
       <NavBar />
       <div className="crop-details-container">
-        {error && <p className="error">Error: {error}</p>}
-        {crop && (
-          <div className="crop-details">
-            {crop.imageUrl && <img src={crop.imageUrl} alt={`${crop.cropName}`} className="crop-detail-image" />}
-            <h1>{crop.cropName}</h1>
-            <p>Type: {crop.cropType}</p>
-            <p>Optimal Temperature: {crop.optimalTemperatureMin}°C - {crop.optimalTemperatureMax}°C</p>
-            <p>Optimal Humidity: {crop.optimalHumidity}%</p>
-            <p>Soil Type: {crop.soilType}</p>
-            <p>Planting Season: {crop.plantingSeason}</p>
-            <p>Harvest Time: {crop.harvestTime}</p>
-            <p>pH Requirement: {crop.phRequirementMin} - {crop.phRequirementMax}</p>
-            <p>Nutrient Requirements: {crop.nutrientRequirements}</p>
-            <p>Yield per Hectare: {crop.yieldPerHectare} kg</p>
-            <p>Disease Resistance: {crop.diseaseResistance}</p>
-            <p>Pest Sensitivity: {crop.pestSensitivity}</p>
-            <p>Location: Latitude {crop.latitude}, Longitude {crop.longitude}</p>
-          </div>
-        )}
-        <div className="input-container">
-          <button className="button" onClick={fetchWeatherAndForecast}>Fetch Weather and Forecast</button>
+        {error && <p className="error">{error}</p>}
+        <div className="details-section">
+          {crop && (
+            <>
+              <div className="crop-image-container">
+                <img src={crop.imageUrl} alt={crop.cropName} className="crop-detail-image" />
+              </div>
+              <div className="crop-info">
+                <h1>{crop.cropName}</h1>
+                <p className="info">Type: <span>{crop.cropType}</span></p>
+                <p className="info">Optimal Temperature: <span>{crop.optimalTemperatureMin}°C - {crop.optimalTemperatureMax}°C</span></p>
+                <p className="info">Optimal Humidity: <span>{crop.optimalHumidity}%</span></p>
+                <p className="info">Soil Type: <span>{crop.soilType}</span></p>
+                <p className="info">Planting Season: <span>{crop.plantingSeason}</span></p>
+                <p className="info">Harvest Time: <span>{crop.harvestTime}</span></p>
+                <p className="info">pH Requirement: <span>{crop.phRequirementMin} - {crop.phRequirementMax}</span></p>
+                <p className="info">Nutrient Requirements: <span>{crop.nutrientRequirements}</span></p>
+                <p className="info">Yield per Hectare: <span>{crop.yieldPerHectare} kg</span></p>
+                <p className="info">Disease Resistance: <span>{crop.diseaseResistance}</span></p>
+                <p className="info">Pest Sensitivity: <span>{crop.pestSensitivity}</span></p>
+                <p className="info">Location: <span>Latitude {crop.latitude}, Longitude {crop.longitude}</span></p>
+              </div>
+            </>
+          )}
         </div>
-        {weather && (
-          <div className="weather-details">
-            <h2>Weather</h2>
-            <p>Temperature: {weather.main?.temp}°C</p>
-            <p>Condition: {weather.weather?.[0]?.main}</p>
-            <p>Humidity: {weather.main?.humidity}%</p>
-            <p>Wind Speed: {weather.wind?.speed} m/s</p>
-          </div>
-        )}
-        {forecast && (
-          <div className="forecast-details">
-            <h2>Forecast</h2>
-            <p>Temperature: {forecast.list[0]?.main.temp}°C</p>
-            <p>Humidity: {forecast.list[0]?.main.humidity}%</p>
-            <p>Wind Speed: {forecast.list[0]?.wind.speed} m/s</p>
-            <p>Rainfall: {forecast.list[0]?.rain ? forecast.list[0].rain["3h"] : 0} mm</p>
-          </div>
-        )}
-        {recommendation && (
-          <div className="recommendation">
-            <h3>Recommendation</h3>
-            <p>{recommendation}</p>
-          </div>
-        )}
+
+        <div className="information-section">
+          {weather && (
+            <div className="forecast-details card">
+              <h2>Current Weather</h2>
+              <p>Temperature: {weather.main?.temp}°C</p>
+              <p>Condition: {weather.weather?.[0]?.main}</p>
+              <p>Humidity: {weather.main?.humidity}%</p>
+              <p>Wind Speed: {weather.wind?.speed} m/s</p>
+            </div>
+          )}
+          {forecast && (
+            <div className="forecast-details card">
+              <h2>Forecast</h2>
+              <p>Temperature: {forecast.list[0]?.main.temp}°C</p>
+              <p>Humidity: {forecast.list[0]?.main.humidity}%</p>
+              <p>Wind Speed: {forecast.list[0]?.wind.speed} m/s</p>
+              <p>Rainfall: {forecast.list[0]?.rain ? forecast.list[0].rain["3h"] : 0} mm</p>
+            </div>
+          )}
+          {recommendation && (
+            <div className="recommendation card">
+              <h3>Recommendation</h3>
+              <p>{recommendation}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
