@@ -60,6 +60,11 @@ public class CropController {
         existingCrop.setPestSensitivity(cropDetails.getPestSensitivity());
         existingCrop.setLastUpdated(cropDetails.getLastUpdated());
 
+        // Set new fields: imageUrl, latitude, and longitude
+        existingCrop.setImageUrl(cropDetails.getImageUrl());
+        existingCrop.setLatitude(cropDetails.getLatitude());
+        existingCrop.setLongitude(cropDetails.getLongitude());
+
         Crop updatedCrop = cropRepository.save(existingCrop);
         return ResponseEntity.ok(updatedCrop);
     }

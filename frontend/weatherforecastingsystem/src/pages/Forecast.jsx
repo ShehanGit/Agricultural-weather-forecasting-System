@@ -1,3 +1,4 @@
+// Forecast.js
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,24 +9,28 @@ function Forecast() {
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      const apiKey = '1eceee44619179169ee5a912cc84231f'; 
-      const city = 'Colombo';
-      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+    const lat = sessionStorage.getItem('latitude');
+    const lon = sessionStorage.getItem('longitude');
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Weather data could not be fetched.');
+    if (lat && lon) {
+      const fetchWeatherData = async () => {
+        const apiKey = '1eceee44619179169ee5a912cc84231f';
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('Weather data could not be fetched.');
+          }
+          const data = await response.json();
+          setWeatherData(data);
+        } catch (error) {
+          console.error('Failed to fetch weather data:', error);
         }
-        const data = await response.json();
-        setWeatherData(data);
-      } catch (error) {
-        console.error('Failed to fetch weather data:', error);
-      }
-    };
+      };
 
-    fetchWeatherData();
+      fetchWeatherData();
+    }
   }, []);
 
   const getIcon = (condition) => {
@@ -46,14 +51,11 @@ function Forecast() {
       return "0% chance of rain";
     }
     const rainVolume = rainData['3h'] || 0;
-    const maxRainFor100Percent = 1; // 1 mm of rain equals 100% chance
+    const maxRainFor100Percent = 1;
     const percentage = (rainVolume / maxRainFor100Percent) * 100;
-    const cappedPercentage = Math.min(100, percentage); // Cap the percentage at 100%
-    return `${Math.round(cappedPercentage)}% chance of rain`;
+    return `${Math.min(100, Math.round(percentage))}% chance of rain`;
   };
-  
 
-  // Group data by unique dates
   const groupDataByDate = (data) => {
     const groupedData = {};
     data.forEach(item => {
