@@ -1,9 +1,24 @@
+<<<<<<< HEAD
 Main container
 .dashboard-container {
     display: flex;
   
     background-color: #e6f2ff;
     height: 800px;
+=======
+.crop-prediction-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .form-container {
+    flex: 1;
+    background-color: #f4f4f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+>>>>>>> 7fa61fa4a371001cee4b38b5d1070ef4ec21d33a
   }
   
   /* Sidebar styling */
@@ -28,6 +43,7 @@ Main container
   
   /* Form styling */
   .crop-form {
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -44,12 +60,29 @@ Main container
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+=======
+    display: grid;
+    grid-gap: 10px;
+  }
+  
+  .crop-form label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  
+  .crop-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+>>>>>>> 7fa61fa4a371001cee4b38b5d1070ef4ec21d33a
   }
   
   button {
     margin-top: 20px;
     padding: 10px 15px;
     font-size: 16px;
+<<<<<<< HEAD
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -94,6 +127,35 @@ Main container
     font-size: 20px;
     color: #333;
     font-weight: bold;
+=======
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .crop-card {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+  }
+  
+  .crop-card h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .crop-card p {
+    margin: 8px 0;
+>>>>>>> 7fa61fa4a371001cee4b38b5d1070ef4ec21d33a
   }
   
   /* Placeholder styling */
@@ -107,7 +169,12 @@ Main container
   /* Error message styling */
   .error {
     color: red;
+<<<<<<< HEAD
     font-size: 16px;
     margin-top: 20px;
+=======
+    font-weight: bold;
+    margin-top: 10px;
+>>>>>>> 7fa61fa4a371001cee4b38b5d1070ef4ec21d33a
   }
   
