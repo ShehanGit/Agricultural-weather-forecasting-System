@@ -18,14 +18,11 @@ function App() {
       <div>
         <Routes>
           {/* Public Routes */}
+          <Route path="/" element={<CurrentWeather />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
           {/* Protected Routes */}
-          <Route
-            path="/"
-            element={isAuthenticated ? <CurrentWeather /> : <Navigate to="/login" />}
-          />
           <Route
             path="/forecast"
             element={isAuthenticated ? <Forecast /> : <Navigate to="/login" />}
@@ -39,7 +36,7 @@ function App() {
             element={isAuthenticated ? <CropDetails /> : <Navigate to="/login" />}
           />
           <Route
-            path="/croppredicton"
+            path="/cropprediction"
             element={isAuthenticated ? <CropPrediction /> : <Navigate to="/login" />}
           />
 

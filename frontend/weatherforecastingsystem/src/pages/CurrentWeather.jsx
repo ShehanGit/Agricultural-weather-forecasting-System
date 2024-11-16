@@ -68,7 +68,7 @@ function WeatherApp() {
     <div>
       <NavBar />
       <div className="weather-container">
-        <div className="input-container">
+        <div className="input-container1">
           <input
             type="text"
             value={city}
