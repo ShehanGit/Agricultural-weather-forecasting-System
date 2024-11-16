@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Navbar, DarkThemeToggle, useThemeMode } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
+import { removeToken } from '../Utiliti/auth';
 import logo from '../Images/Logo2.png';
 
 const NavBar = () => {
@@ -17,6 +18,11 @@ const NavBar = () => {
 
   const handleButtonClick1 = () => {
     navigate('/'); 
+  };
+
+  const handleLogout = () => {
+    removeToken();
+
   };
 
   return (
@@ -41,8 +47,10 @@ const NavBar = () => {
         <div className="flex md:order-2">
               <DarkThemeToggle onClick={toggleMode} className="mr-2" />
               <Button onClick={handleButtonClick} style={{ width: '150px', backgroundColor: '#7b9a00', color: 'white' }}>Login</Button>
+              <Button onClick={handleLogout} style={{ width: '150px', backgroundColor: '#7b9a00', color: 'white' }}>Logout</Button>
         <Navbar.Toggle />
         </div>
+        
 
       </Navbar>
     </div>
