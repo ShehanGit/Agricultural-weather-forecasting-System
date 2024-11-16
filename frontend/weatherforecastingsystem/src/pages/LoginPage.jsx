@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link
 import { loginUser } from "../Utiliti/api";
 import { setToken } from "../Utiliti/auth";
 
@@ -40,6 +40,13 @@ const LoginPage = () => {
           required
         />
         <button className="w-full bg-blue-500 text-white py-2 rounded">Login</button>
+        {/* Add link to registration page */}
+        <p className="text-center mt-4">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-500 underline">
+            Register here
+          </Link>
+        </p>
       </form>
     </div>
   );

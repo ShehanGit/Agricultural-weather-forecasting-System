@@ -9,15 +9,12 @@ const NavBar = () => {
   const { toggleMode } = useThemeMode();
 
   const handleButtonClick = () => {
-    navigate('/hotel-create'); 
+    navigate('/login'); 
   };
 
-  const handleButtonClick2 = () => {
-    navigate('/loginpage'); 
-  }; 
 
   const handleButtonClick1 = () => {
-    navigate('/'); 
+    navigate('/login'); 
   };
 
   const handleLogout = () => {
