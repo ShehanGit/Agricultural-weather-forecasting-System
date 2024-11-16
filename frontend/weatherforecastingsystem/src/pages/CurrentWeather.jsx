@@ -101,6 +101,7 @@ function WeatherApp() {
           </div>
         )}
       </div>
+      
     </div>
   );
 }

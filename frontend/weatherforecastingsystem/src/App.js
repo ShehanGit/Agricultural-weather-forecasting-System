@@ -8,49 +8,51 @@ import Forecast from './pages/Forecast';
 import CropApp from './pages/CropPage';
 import CropDetails from './pages/CropDetails';
 import CropPrediction from './pages/CropPrediction';
-import { getToken } from './Utiliti/auth';
+import Navbar from './components/Navbar'; // Import Navbar
+import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 
 function App() {
-  const isAuthenticated = !!getToken();
-
   return (
-    <Router>
-      <div>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+    <AuthProvider>
+      <Router>
+        <Navbar /> {/* Include the Navbar */}
+        <div>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
-          {/* Protected Routes */}
-          <Route
-            path="/"
-            element={isAuthenticated ? <CurrentWeather /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/forecast"
-            element={isAuthenticated ? <Forecast /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/crop"
-            element={isAuthenticated ? <CropApp /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/crop/:id"
-            element={isAuthenticated ? <CropDetails /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/croppredicton"
-            element={isAuthenticated ? <CropPrediction /> : <Navigate to="/login" />}
-          />
+            {/* Protected Routes */}
+            <Route
+              path="/"
+              element={!!getToken() ? <CurrentWeather /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/forecast"
+              element={!!getToken() ? <Forecast /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/crop"
+              element={!!getToken() ? <CropApp /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/crop/:id"
+              element={!!getToken() ? <CropDetails /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/croppredicton"
+              element={!!getToken() ? <CropPrediction /> : <Navigate to="/login" />}
+            />
 
-          {/* Fallback for Protected Page Example */}
-          <Route
-            path="/protected"
-            element={isAuthenticated ? <ProtectedPage /> : <Navigate to="/login" />}
-          />
-        </Routes>
-      </div>
-    </Router>
+            {/* Fallback for Protected Page Example */}
+            <Route
+              path="/protected"
+              element={!!getToken() ? <ProtectedPage /> : <Navigate to="/login" />}
+            />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
