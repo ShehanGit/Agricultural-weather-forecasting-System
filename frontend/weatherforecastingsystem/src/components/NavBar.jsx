@@ -16,9 +16,10 @@ const NavBar = () => {
 
   const handleLogout = () => {
     removeToken();
-    navigate("/login");
+    navigate("/");
   };
 
+  
   return (
     <div>
       <Navbar fluid rounded>

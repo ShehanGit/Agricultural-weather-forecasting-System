@@ -13,7 +13,8 @@ const LoginPage = () => {
     try {
       const data = await loginUser({ email, password });
       setToken(data.token);
-      navigate("/protected");
+      navigate("/");
+      // navigate("/protected");
     } catch (error) {
       alert("Login failed: " + error.response.data.message);
     }
