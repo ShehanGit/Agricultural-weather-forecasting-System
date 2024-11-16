@@ -35,7 +35,7 @@ const NavBar = () => {
       <Navbar.Link href="/forecast" style={{ fontSize: '1.25rem' }}>Forecast</Navbar.Link>
       <Navbar.Link href="/crop" style={{ fontSize: '1.25rem' }}>Crop</Navbar.Link>
       <Navbar.Link href="/map" style={{ fontSize: '1.25rem' }}>Map</Navbar.Link>
-      <Navbar.Link href="#" style={{ fontSize: '1.25rem' }}>Crop Prediction</Navbar.Link>
+      <Navbar.Link href="/croppredicton" style={{ fontSize: '1.25rem' }}>Crop Prediction</Navbar.Link>
     </Navbar.Collapse>
 
         <div className="flex md:order-2">
