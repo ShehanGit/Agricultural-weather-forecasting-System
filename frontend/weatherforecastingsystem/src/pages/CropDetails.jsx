@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import '../css/CropDetails.css';
+import { getToken } from '../Utiliti/auth'; // Import to fetch the JWT token
 
 function CropDetails() {
   const { id } = useParams();
@@ -22,12 +23,20 @@ function CropDetails() {
   }, [crop]);
 
   const fetchCropDetails = async () => {
+    const token = getToken(); // Get JWT token from localStorage
     try {
-      const response = await fetch(`http://localhost:8080/crops/${id}`);
-      const data = await response.json();
+      const response = await fetch(`http://localhost:8080/crops/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include token in the Authorization header
+        },
+      });
       if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch crop data");
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch crop data');
       }
+      const data = await response.json();
       setCrop(data);
 
       // Store latitude and longitude in sessionStorage
@@ -36,7 +45,7 @@ function CropDetails() {
     } catch (error) {
       setError(error.message);
       setCrop(null);
-      console.error("Error fetching crop details:", error);
+      console.error('Error fetching crop details:', error);
     }
   };
 
@@ -44,7 +53,7 @@ function CropDetails() {
     const lat = sessionStorage.getItem('latitude');
     const lon = sessionStorage.getItem('longitude');
     if (!lat || !lon) {
-      setError("Latitude and Longitude not available for this crop.");
+      setError('Latitude and Longitude not available for this crop.');
       return;
     }
 
@@ -55,18 +64,20 @@ function CropDetails() {
 
       // Fetch weather data
       const weatherResponse = await fetch(weatherUrl);
-      const weatherData = await weatherResponse.json();
       if (!weatherResponse.ok) {
-        throw new Error(weatherData.message || "Failed to fetch weather data");
+        const weatherError = await weatherResponse.json();
+        throw new Error(weatherError.message || 'Failed to fetch weather data');
       }
+      const weatherData = await weatherResponse.json();
       setWeather(weatherData);
 
       // Fetch forecast data
       const forecastResponse = await fetch(forecastUrl);
-      const forecastData = await forecastResponse.json();
       if (!forecastResponse.ok) {
-        throw new Error(forecastData.message || "Failed to fetch forecast data");
+        const forecastError = await forecastResponse.json();
+        throw new Error(forecastError.message || 'Failed to fetch forecast data');
       }
+      const forecastData = await forecastResponse.json();
       setForecast(forecastData);
 
       generateRecommendations(weatherData, forecastData);
@@ -74,7 +85,7 @@ function CropDetails() {
       setError(error.message);
       setWeather(null);
       setForecast(null);
-      console.error("Error fetching weather or forecast:", error);
+      console.error('Error fetching weather or forecast:', error);
     }
   };
 
@@ -90,7 +101,7 @@ function CropDetails() {
       recommendations += 'The current temperature is within the optimal range for the crop.\n';
     }
 
-    if (forecastData && forecastData.list[0]?.rain && forecastData.list[0].rain["3h"] > 1) {
+    if (forecastData && forecastData.list[0]?.rain && forecastData.list[0].rain['3h'] > 1) {
       recommendations += 'The rainfall is expected to be more than 1mm. Consider reducing the irrigation amount to prevent overwatering.\n';
     } else {
       recommendations += 'The expected rainfall is less than 1mm. Consider supplying additional irrigation to the crops if needed.\n';
@@ -145,7 +156,7 @@ function CropDetails() {
               <p>Temperature: {forecast.list[0]?.main.temp}°C</p>
               <p>Humidity: {forecast.list[0]?.main.humidity}%</p>
               <p>Wind Speed: {forecast.list[0]?.wind.speed} m/s</p>
-              <p>Rainfall: {forecast.list[0]?.rain ? forecast.list[0].rain["3h"] : 0} mm</p>
+              <p>Rainfall: {forecast.list[0]?.rain ? forecast.list[0].rain['3h'] : 0} mm</p>
             </div>
           )}
           {recommendation && (
