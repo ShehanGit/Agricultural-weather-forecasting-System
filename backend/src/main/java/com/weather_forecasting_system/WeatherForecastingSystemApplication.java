@@ -11,5 +11,4 @@ public class WeatherForecastingSystemApplication {
 		SpringApplication.run(WeatherForecastingSystemApplication.class, args);
 	}
 
-
 }
