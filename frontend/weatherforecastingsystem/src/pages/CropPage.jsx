@@ -59,13 +59,14 @@ function CropApp() {
               className="crop-card"
               onClick={() => handleCardClick(crop.id || crop.cropId)}
             >
-              {crop.imageUrl && (
-                <img
-                  src={crop.imageUrl}
-                  alt={`${crop.cropName}`}
-                  className="crop-image"
-                />
-              )}
+              <img
+                src={crop.imageUrl}
+                alt={crop.cropName || 'Crop Image'}
+                className="crop-image"
+                onError={(e) => {
+                  e.target.src = '/default-image.jpg'; // Replace with your fallback image path
+                }}
+              />
               <h2 className="crop-name">{crop.cropName}</h2>
               <p>Type: {crop.cropType}</p>
               <p>
