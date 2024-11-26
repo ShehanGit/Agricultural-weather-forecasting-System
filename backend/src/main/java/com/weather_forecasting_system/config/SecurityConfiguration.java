@@ -25,11 +25,11 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF as we're using JWT
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll() // Allow public access to authentication endpoints
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN") // Only ADMIN can access /admin
-                        .requestMatchers("/api/v1/manager/**").hasRole("MANAGER") // Only MANAGER can access /manager
-                        .requestMatchers("/api/v1/user/**").hasRole("USER") // Only USER can access /user
-                        .anyRequest().authenticated() // Any other request must be authenticated
+                        .requestMatchers("/api/v1/auth/**").permitAll()  // Public endpoints for registration and login
+                        .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")  // Only ADMIN can access /admin
+                        .requestMatchers("/api/v1/manager/**").hasAuthority("ROLE_MANAGER")  // Only MANAGER can access /manager
+                        .requestMatchers("/api/v1/user/**").hasAuthority("ROLE_USER")  // Only USER can access /user
+                        .anyRequest().authenticated()  // Any other request must be authenticated
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
