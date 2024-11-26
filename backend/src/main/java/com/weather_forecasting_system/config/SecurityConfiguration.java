@@ -27,8 +27,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/**").permitAll()  // Public endpoints for registration and login
                         .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")  // Only ADMIN can access /admin
-                        .requestMatchers("/api/v1/manager/**").hasAuthority("ROLE_MANAGER")  // Only MANAGER can access /manager
-                        .requestMatchers("/api/v1/user/**").hasAuthority("ROLE_USER")  // Only USER can access /user
+                        .requestMatchers("/api/v1/manager/**").hasAuthority("MANAGER")  // Only MANAGER can access /manager
+                        .requestMatchers("/api/v1/user/**").hasAuthority("USER")  // Only USER can access /user
                         .anyRequest().authenticated()  // Any other request must be authenticated
                 )
                 .sessionManagement(session -> session
