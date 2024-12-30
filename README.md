@@ -1,4 +1,4 @@
-# Agriculture Weather Forecasting and ML-Based Crop Recommendation System
+# Agriculture Weather Forecasting
 
 ## Overview
 This project integrates real-time weather forecasting and machine learning to support farmers in making informed decisions. It features weather updates, rainfall predictions, and ML-powered crop recommendations tailored to environmental and soil conditions.
